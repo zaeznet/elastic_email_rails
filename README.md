@@ -32,7 +32,7 @@ email = mail from: 'sender@email.com', to: 'receiver@email.com', subject: 'this 
 
 * Upload attachments;
 * CC and CCO;
-# Channel.
+* Channel.
 
 This gem was based on [mailgun_rails](https://github.com/jorgemanrubia/mailgun_rails).
 
