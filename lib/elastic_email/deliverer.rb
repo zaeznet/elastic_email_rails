@@ -39,16 +39,23 @@ module ElasticEmail
       elastic_email_message = {
           username: username,
           api_key: api_key,
-          from: rails_message[:from].formatted,
           to: rails_message[:to].formatted,
           subject: rails_message.subject,
           body_text: extract_text(rails_message),
           body_html: extract_html(rails_message)
       }
 
-      elastic_email_message[:reply_to] = rails_message[:reply_to].formatted if rails_message[:reply_to].present?
+      if rails_message[:from].tree.present?
+        elastic_email_message[:from] = rails_message[:from].tree.addresses.first.address
+        elastic_email_message[:from_name] = rails_message[:from].tree.addresses.first.display_name
+      end
 
-      return elastic_email_message
+      if rails_message[:reply_to].present?
+        elastic_email_message[:reply_to] =     rails_message[:reply_to].tree.addresses.first.address
+        elastic_email_message[:reply_to_name] = rails_message[:reply_to].tree.addresses.first.display_name
+      end
+
+      elastic_email_message
     end
 
     def extract_html(rails_message)
